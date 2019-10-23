@@ -15,10 +15,12 @@ class BackgroundTaskOperation: Operation {
         print("start", self)
         var bti : UIBackgroundTaskIdentifier = .invalid
         bti = UIApplication.shared.beginBackgroundTask {
-            print("out of time, calling endBackgroundTask, cancelling")
-            UIApplication.shared.endBackgroundTask(bti)
+            print("out of time, cleaning up")
             self.cleanup?()
+            print("canceling")
             self.cancel()
+            print("calling endBackgroundTask")
+            UIApplication.shared.endBackgroundTask(bti)
         }
         guard bti != .invalid else { return }
         whatToDo?()
